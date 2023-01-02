@@ -1,4 +1,5 @@
 #include<iostream>
+#include<cmath>
 #include<GL/glut.h>
 
 using namespace std;
@@ -14,27 +15,10 @@ void drawPixel(int x, int y) {
 }
 
 void drawLine() {
-	int dx = xc2 - xc1, dy = yc2 - yc1;
-	if (dx == 0) {
-		for (int i = 0; i <= dy; i++)
-			drawPixel(xc1, yc1 + i);
-		return;
-	}
-	if (dy == 0) {
-		for (int i = 0; i <= dx; i++)
-			drawPixel(xc1 + i, yc1);
-		return;
-	}
+	int dx = abs(xc2 - xc1), dy = abs(yc2 - yc1);
 
-	int incx = 1, incy = 1;
-	if (dx < 0)
-		dx = -dx;
-	if (dy < 0)
-		dy = -dy;
-	if (xc2 < xc1)
-		incx = -1;
-	if (yc2 < yc1)
-		incy = -1;
+	int incx = xc1 <= xc2 ? 1 : -1;
+	int incy = yc1 <= yc2 ? 1 : -1;
 
 	int x = xc1, y = yc1;
 	if (dx > dy) {

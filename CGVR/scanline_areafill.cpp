@@ -25,8 +25,10 @@ void edgeDetect(float x1, float y1, float x2, float y2, int scanline, int intx[]
 		swap(x1, x2);
 		swap(y1, y2);
 	}
-	if (scanline > y1 && scanline < y2)
-		intx[count++] = x1 + (scanline - y1) * (x2 - x1) / (y2 - y1);
+	if (scanline > y1 && scanline < y2) {
+		float m = (y2-y1) / (x2-x1);
+		intx[count++] = x1 + (scanline - y1) / m;
+	}
 }
 
 void scanFill(float x[], float y[]) {

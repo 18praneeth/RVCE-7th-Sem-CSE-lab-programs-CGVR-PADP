@@ -26,13 +26,13 @@ void drawCircle() {
 	int x = 0, y = r;
 	while (x <= y) {
 		draw8Pixel(xc, yc, x, y);
-		x++;
 		if (d < 0) {
 			d += 4 * x + 6;
 		} else {
-			y--;
 			d += 4 * (x - y) + 10;
+			y--;
 		}
+		x++;
 	}
 	glFlush();
 }
