@@ -1,48 +1,48 @@
 #include<iostream>
 #include<fstream>
-#include<string>
-#include<algorithm>
+#include<cstring>
 #include<omp.h>
-
-#define SIZE 5
+#include<ctype.h>
+#include<stdlib.h>
+#include<stdio.h>
 
 using namespace std;
 
-string fileName = "words.txt";
-string words[SIZE] = {"lorem", "ipsum", "dolo", "sit", "amet"};
-int counts[SIZE] = { 0 };
+int strcmpi(string a,string b){
+	
+	int len_a=a.length(),len_b= b.length();
 
-int getCount(ifstream& file, string key, bool ignorecase) {
-	if(ignorecase)
-		transform(key.begin(), key.end(), key.begin(), ::tolower);
-
-	file.clear();
-	file.seekg(0, ios::beg);
-	string word;
-
-	int count = 0;
-	while(file >> word) {
-		if(ignorecase)
-			transform(word.begin(), word.end(), word.begin(), ::tolower);
-		if(key == word)
-			count++;
+	if(len_a!=len_b)
+		return -1;
+		
+	for(int i=0;i<len_a;i++){
+		if(tolower(a[i])!=tolower(b[i]))
+			return -1;
 	}
-	return count;
+ 	return 0;
 }
 
-int main() {
-	double t = omp_get_wtime();
+int main(){
+	string filename = "words.txt";
+	string word[7] = {"lorem", "ipsum", "dolor", "sit","amet","hi","good"};
 
-	ifstream file(fileName);
-	#pragma omp parallel for num_threads(1)
-	for(int i = 0; i < SIZE; i++) {
-		counts[i] = getCount(file, words[i], true);
+
+	for(int j=1;j<=8;j*=2){
+		double st=omp_get_wtime();
+		#pragma omp parallel for shared(word) num_threads(j) 
+		for(int k=0;k<7;k++){
+			int count = 0;
+			fstream file;
+			string word1;
+			file.open(filename);
+			while (file >> word1)
+			{
+				if(strcmpi(word[k],word1)==0)
+					count++;
+			}
+			cout << count << " " << word[k] <<endl;
+		}
+	cout <<"Time "<<omp_get_wtime()-st<<endl;
 	}
-
-	t = omp_get_wtime() - t;
-	cout << "TIME = " << t << endl;
-
-	for(int i = 0; i < SIZE; i++) {
-		cout << words[i] << " " << counts[i] << endl;
-	}
+	
 }
