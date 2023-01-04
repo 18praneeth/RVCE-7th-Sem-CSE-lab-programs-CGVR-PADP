@@ -35,8 +35,7 @@ int main(){
 			fstream file;
 			string word1;
 			file.open(filename);
-			while (file >> word1)
-			{
+			while (file >> word1){
 				if(strcmpi(word[k],word1)==0)
 					count++;
 			}
