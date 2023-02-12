@@ -26,11 +26,10 @@ int main(int argc, char *argv[]) {
 	int w = gdImageSX(img);
 	int h = gdImageSY(img);
 
-	int x, y, color;
-	#pragma omp parallel for  private(x,y,color)
-	for(x = 0; x < w; x++) {
-		for(y = 0; y < h; y++) {
-			color = gdImageGetPixel(img, x, y);
+	#pragma omp parallel for
+	for(int x = 0; x < w; x++) {
+		for(int y = 0; y < h; y++) {
+			int color = gdImageGetPixel(img, x, y);
 			int avgColor = (gdImageRed(img, color) + gdImageGreen(img, color) + gdImageBlue(img, color)) / 3;
 			color = gdImageColorAllocate(img, avgColor, avgColor, avgColor);
 			#pragma omp critical
