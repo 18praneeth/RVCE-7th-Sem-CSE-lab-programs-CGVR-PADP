@@ -61,7 +61,7 @@ void myInit(){
 }
 
 int main(int argc, char **argv){
-	cout << "Ënter the number of subdivisions:";
+	cout << "Enter the number of subdivisions:";
 	cin >> iter;
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_SINGLE | GLUT_DEPTH);

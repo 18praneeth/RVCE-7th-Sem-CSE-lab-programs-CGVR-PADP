@@ -24,9 +24,9 @@ float colors[8][3] = {
 
 GLubyte elementIndices[24] = {
 	0, 1, 2, 3,
-	0, 3, 4, 7,
-	0, 7, 6, 1,
+	0, 6, 7, 1,
 	3, 4, 5, 2,
+	0, 3, 4, 7,
 	2, 5, 6, 1,
 	7, 4, 5, 6,
 };
@@ -47,15 +47,11 @@ void idle() {
 	glutPostRedisplay();
 }
 
-void reshape(int w, int h){
-	glViewport(0, 0, w, h);
-}
-
 void myInit() {
 	glEnable(GL_DEPTH_TEST);
 	gluPerspective(80, 1, .1, 10);
 	glMatrixMode(GL_MODELVIEW);
-	glTranslatef(0, 0, -6);
+	glTranslatef(0, 0, -3);
 }
 
 int main(int argc, char** argv) {
@@ -67,7 +63,6 @@ int main(int argc, char** argv) {
 
 	glutDisplayFunc(display);
 	glutIdleFunc(idle);
-	glutReshapeFunc(reshape);
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);

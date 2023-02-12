@@ -4,7 +4,7 @@
 void drawCircle(int xc, int yc, int r){
 	glColor3f(1, 0, 0);
 	glBegin(GL_POINTS);
-	for (float t = 0; t < 2*M_PI; t += .01) {
+	for (float t = 0; t < 2*3.142; t += .01) {
 		int x = xc + r * cos(t);
 		int y = yc + r * sin(t);
 		glVertex2f(x, y);
