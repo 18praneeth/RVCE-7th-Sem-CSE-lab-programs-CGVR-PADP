@@ -1,10 +1,14 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include <iostream>
+#include <cstdlib>
 #include <mpi.h>
 
 #define SEED 3655942
 
-int main(int argc, char **argv) {
+#define ROOT 0
+
+using namespace std;
+
+int main(int argc, char *argv[]) {
 	MPI_Init(&argc, &argv);
 
 	int rank, size;
@@ -25,15 +29,17 @@ int main(int argc, char **argv) {
 		double z = x*x + y*y;
 		if (z <= 1.0) count++;
 	}
-	MPI_Reduce(&count, &red_count, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
+	MPI_Reduce(&count, &red_count, 1, MPI_INT, MPI_SUM, ROOT, MPI_COMM_WORLD);
 
 	if(rank == 0) {
 		t = MPI_Wtime() - t;
-		printf("time: %lf\n", t);
+		cout << "Time: " << t << endl;
 
 		double pi = (double)red_count / n * 4;
-		printf("# of trials = %d, estimate of pi is %lf\n", n, pi);
-	}	
+		cout << "no. of threads: " << size << endl;
+		cout << "no. of trials: " << n << endl;
+		cout << "est. of pi: " << pi << endl;
+	}
 
 	MPI_Finalize();
 }
