@@ -3,27 +3,28 @@
 #include <mpi.h>
 
 #define BUFSIZE 32 
+#define TAG 0
 
 char *m[]={ "Hello", "RVCE", "CSE" };
 
 int main(int argc, char **argv) {
-	char msg[BUFSIZE];
-	int root = 0, tag = 0;
-
-	int rank, numProcs;
 	MPI_Init(&argc, &argv);
-	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-	MPI_Comm_size(MPI_COMM_WORLD, &numProcs);
 
-	if(rank == 0) {
-		for(int i = 1; i < numProcs; i++) {
-			strcpy(msg, m[i-1]);
-			MPI_Send(&msg, BUFSIZE, MPI_CHAR, i, tag, MPI_COMM_WORLD);
-		}	
+	int rank, size;
+	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+	MPI_Comm_size(MPI_COMM_WORLD, &size);
+
+	if(rank != 0) {
+		char msg[BUFSIZE];
+		strcpy(msg, m[rank-1]);
+		MPI_Send(&msg, BUFSIZE, MPI_CHAR, rank, TAG, MPI_COMM_WORLD);
 	} else {
-		MPI_Status status;
-		MPI_Recv(&msg, BUFSIZE, MPI_CHAR, root, tag, MPI_COMM_WORLD, &status);
-		printf("Received %s in process of rank %d from process of rank %d\n", msg, root, rank);
+		for(int i = 1; i < size; i++) {
+			char msg[BUFSIZE];
+			MPI_Recv(&msg, BUFSIZE, MPI_CHAR, i, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+			printf("Received %s in process %d from process %d\n", msg, rank, i);
+		}
 	}
+
 	MPI_Finalize();
 }
