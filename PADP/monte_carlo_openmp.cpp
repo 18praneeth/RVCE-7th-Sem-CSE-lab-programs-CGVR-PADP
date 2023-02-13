@@ -10,20 +10,16 @@ int main() {
 	scanf("%d", &th);	
 	omp_set_num_threads(th);
 
-	int n;
-	printf("Enter the number of iterations to be used to estimate pi: ");
-	scanf("%d", &n);
-
 	double t = omp_get_wtime();
 
-	srand(SEED);
+	int n = 10000;
 	int count = 0;
-	double x, y, z;
-	#pragma omp parallel for private(x,y,z) reduction( +: count)
+	srand(SEED);
+	#pragma omp parallel for reduction( +: count)
 	for (int i = 0; i < n; i++) {
-		x = (double)rand() / RAND_MAX;
-		y = (double)rand() / RAND_MAX;
-		z = x*x + y*y;
+		double x = (double)rand() / RAND_MAX;
+		double y = (double)rand() / RAND_MAX;
+		double z = x*x + y*y;
 		if (z <= 1.0) count++;
 	}
 
