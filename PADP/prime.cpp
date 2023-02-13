@@ -1,11 +1,11 @@
-#include<iostream>
-#include<cmath>
-#include<omp.h>
+#include <iostream>
+#include <cmath>
+#include <omp.h>
 
 using namespace std;
 
-inline int strike(bool comp[], int start, int step, int stop) {
-	int i;
+int strike(bool comp[], int start, int step, int stop) {
+	int i; // BEWARE: i should be declared outside loop!
 	for(i = start; i <= stop; i += step)
 		comp[i] = true;
 	return i;
@@ -14,9 +14,10 @@ inline int strike(bool comp[], int start, int step, int stop) {
 int unfriendlySieve(int n) {
 	int m = sqrt(n);
 	bool* comp = new bool[n+1];
-	
-	int count = 0;
+
 	double t = omp_get_wtime();
+
+	int count = 0;
 	for(int i = 2; i <= m; i++) {
 		if(!comp[i]) {
 			count++;
@@ -28,6 +29,7 @@ int unfriendlySieve(int n) {
 			count++;
 		}
 	}
+
 	t = omp_get_wtime() - t;
 	cout << "Time: " << t << endl;
 
@@ -42,9 +44,10 @@ int friendlySieve(int n) {
 	int *striker = new int[m];
 	int *factor = new int[m];
 	int fac_cnt = 0;
-	
-	int count = 0;
+
 	double t = omp_get_wtime();
+
+	int count = 0;
 	for(int i = 2; i <= m; i++) {
 		if(!comp[i]) {
 			count++;
@@ -64,9 +67,10 @@ int friendlySieve(int n) {
 			}
 		}
 	}
+
 	t = omp_get_wtime() - t;
 	cout << "Time: " << t << endl;
-	
+
 	delete[] striker;
 	delete[] factor;
 	delete[] comp;
@@ -80,9 +84,10 @@ int parallelySieve(int n) {
 	int *striker = new int[m];
 	int *factor = new int[m];
 	int fac_cnt = 0;
-	
-	int count = 0;
+
 	double t = omp_get_wtime();
+
+	int count = 0;
 	for(int i = 2; i <= m; i++) {
 		if(!comp[i]) {
 			count++;
@@ -104,9 +109,10 @@ int parallelySieve(int n) {
 			}
 		}
 	}
+
 	t = omp_get_wtime() - t;
 	cout << "Time: " << t << endl;
-	
+
 	delete[] striker;
 	delete[] factor;
 	delete[] comp;
