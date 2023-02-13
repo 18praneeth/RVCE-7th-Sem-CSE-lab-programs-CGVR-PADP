@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
 	MPI_Comm_size(MPI_COMM_WORLD, &size);
 
 	double t;
-	if(rank == 0) {
+	if (rank == ROOT) {
 		t = MPI_Wtime();
 	}
 
@@ -31,7 +31,7 @@ int main(int argc, char *argv[]) {
 	}
 	MPI_Reduce(&count, &red_count, 1, MPI_INT, MPI_SUM, ROOT, MPI_COMM_WORLD);
 
-	if(rank == 0) {
+	if (rank == ROOT) {
 		t = MPI_Wtime() - t;
 		cout << "Time: " << t << endl;
 
