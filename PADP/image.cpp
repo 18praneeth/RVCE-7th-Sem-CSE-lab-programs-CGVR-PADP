@@ -3,8 +3,10 @@
 #include <gd.h>
 #include <omp.h>
 
+using namespace std;
+
 int main(int argc, char *argv[]) {
-	if(argc != 3) {
+	if (argc != 3) {
 		cout << "Usage: " << argv[0] << " <in.png> <out.png>" << endl;
 		exit(1);
 	}
@@ -19,8 +21,8 @@ int main(int argc, char *argv[]) {
 	int h = gdImageSY(img);
 
 	#pragma omp parallel for // num_threads(1/2/4/8) schedule(static/dynamic/guided)
-	for(int x = 0; x < w; x++) {
-		for(int y = 0; y < h; y++) {
+	for (int x = 0; x < w; x++) {
+		for (int y = 0; y < h; y++) {
 			int color = gdImageGetPixel(img, x, y);
 			int avgColor = (gdImageRed(img, color) + gdImageGreen(img, color) + gdImageBlue(img, color)) / 3;
 			color = gdImageColorAllocate(img, avgColor, avgColor, avgColor);
