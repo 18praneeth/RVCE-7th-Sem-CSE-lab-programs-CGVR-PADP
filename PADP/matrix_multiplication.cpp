@@ -1,7 +1,9 @@
-#include<iostream>
-#include<omp.h>
+#include <iostream>
+#include <omp.h>
 
 #define DIM 1000
+
+using namespace std;
 
 int main() {
 	int *A = new int[DIM * DIM];
