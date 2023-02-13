@@ -1,24 +1,16 @@
-#include <stdio.h>
+#include <iostream>
+#include <cstdlib>
 #include <gd.h>
 #include <omp.h>
 
 int main(int argc, char *argv[]) {
 	if(argc != 3) {
-		printf("Usage: %s input.png output.png\n", argv[0]);
-		exit(0);
+		cout << "Usage: " << argv[0] << " <in.png> <out.png>" << endl;
+		exit(1);
 	}
 
 	FILE *ifp = fopen(argv[1], "rb");
-	if(ifp == NULL) {
-		printf("Error - fopen(): %s", argv[1]);
-		exit(0);
-	}
-
 	FILE *ofp = fopen(argv[2], "wb");
-	if(ofp == NULL) {
-		printf("Error - fopen(): %s", argv[2]);
-		exit(0);
-	}
 
 	double t = omp_get_wtime();
 
@@ -26,7 +18,7 @@ int main(int argc, char *argv[]) {
 	int w = gdImageSX(img);
 	int h = gdImageSY(img);
 
-	#pragma omp parallel for
+	#pragma omp parallel for // num_threads(1/2/4/8) schedule(static/dynamic/guided)
 	for(int x = 0; x < w; x++) {
 		for(int y = 0; y < h; y++) {
 			int color = gdImageGetPixel(img, x, y);
@@ -44,5 +36,5 @@ int main(int argc, char *argv[]) {
 	fclose(ofp);
 
 	t = omp_get_wtime() - t;
-	printf("Time taken = %g\n",t);
+	cout << "Time: " << t << endl;
 }
