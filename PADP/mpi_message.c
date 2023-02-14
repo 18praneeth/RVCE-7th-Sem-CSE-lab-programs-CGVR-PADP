@@ -1,7 +1,6 @@
-#include <iostream>
-#include <cstdlib>
-#include <string>
-#include <cstring>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <mpi.h>
 
 #define SIZE 4
@@ -10,9 +9,7 @@
 #define ROOT 0
 #define TAG 0
 
-using namespace std;
-
-string m[SIZE] = { "", "Hello", "RVCE", "CSE" };
+char* m[SIZE] = { "", "Hello", "RVCE", "CSE" };
 char msg[BUFSIZE];
 
 int main(int argc, char *argv[]) {
@@ -23,18 +20,18 @@ int main(int argc, char *argv[]) {
 	MPI_Comm_size(MPI_COMM_WORLD, &size);
 
 	if (size != SIZE) {
-		cout << "Provide argument: -np " << SIZE << endl;
+		printf("Provide argument: -np %d\n", SIZE);
 		exit(1);
 	}
 
 	if (rank != ROOT) {
-		strcpy(msg, m[rank].data());
+		strcpy(msg, m[rank]);
 		MPI_Send(&msg, BUFSIZE, MPI_CHAR, ROOT, TAG, MPI_COMM_WORLD);
 	} else {
 		for(int i = 0; i < size; i++) {
 			if (i == ROOT) continue;
 			MPI_Recv(&msg, BUFSIZE, MPI_CHAR, i, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-			cout << "Received " << msg << " in process " << rank << " from process " << i << endl;
+			printf("Received %s in process %d from process %d\n", msg, rank, i);
 		}
 	}
 

@@ -36,3 +36,12 @@ ii. Reflect it about an axis y=mx+c using OpenGL transformation functions.
 - [ ] Write a program to create a color cube and spin it using OpenGL transformations.
 The output must be adjusted suitably when the window is resized or moved to a new 
 position.
+
+
+### Working examples on OpenMP directives, Enviornment variables and rutime libraries
+
+-[ ] 1. a) Write an OpenMP program that computes the value of PI using Monto-Carlo Algorithm
+        a) Write an MPI program that computes the value of PI using Monto-Carlo Algorithm
+-[ ] 2. Write an OpenMP program that computes a simple matrix-matrix multiplication using dynamic memory allocation.
+-[ ] 4. Write an OpenMP program to convert a color image to black and white image.
+
