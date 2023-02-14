@@ -26,3 +26,4 @@ g++ -fopenmp -lgd image.cpp
 ### General Instruction.
 - gcc is for C files.
 - g++ is for C++ files.
+- To run openMP programs please refere 1st program command. -fopenmp is the flag which does the job.
